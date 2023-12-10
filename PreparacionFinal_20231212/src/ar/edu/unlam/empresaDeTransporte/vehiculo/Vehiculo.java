@@ -9,7 +9,8 @@ import ar.edu.unlam.empresaDeTransporte.persona.Persona;
 import ar.edu.unlam.exception.ChoferNoHabilitadoException;
 import ar.edu.unlam.exception.ChoferNoHabilitadoException;
 
-public class Vehiculo{
+public abstract class Vehiculo{
+	
 	protected String patente;
 	protected Integer kmRecorridos;
 	private Set <Chofer>  choferesHabilitados;
@@ -18,8 +19,8 @@ public class Vehiculo{
 	public  Vehiculo(String patente, Integer kmRecorridos) {
 		this.patente=patente;
 		this.kmRecorridos=kmRecorridos;
-		this.setChoferesHabilitados(new HashSet<Chofer>());
-		this.setChoferAsignado(choferAsignado);
+		this.choferesHabilitados=new HashSet<Chofer>();
+		
 		
 	}
 
@@ -38,31 +39,9 @@ public class Vehiculo{
 	public void setKmRecorridos(Integer kmRecorridos) {
 		this.kmRecorridos = kmRecorridos;
 	}
+	public abstract Boolean asignarChofer(Chofer choferAsignado) throws ChoferNoHabilitadoException;
 
-	public Chofer getChoferesHabilitados(Chofer chofer)throws ChoferNoHabilitadoException {
-		for(Chofer choferes:choferesHabilitados )
-			if(choferes.getDni().equals(chofer.getDni()))
-		return  chofer;
-		throw new ChoferNoHabilitadoException("Chofer no esta registrado");
-	}
-	private Boolean checkChoferAsignado(Chofer choferAsignado) {
-		Boolean choferRegistrado=false;
-		choferRegistrado=this.choferesHabilitados.contains(choferAsignado);
-		return choferRegistrado;
-		
-	}
-
-	public void setChoferesHabilitados(Set <Chofer> choferesHabilitados) {
-		this.choferesHabilitados = choferesHabilitados;
-	}
-
-	public Chofer getChoferAsignado() {
-		return choferAsignado;
-	}
-
-	public void setChoferAsignado(Chofer choferAsignado) {
-		this.choferAsignado = choferAsignado;
-	}
+	
 
 	@Override
 	public int hashCode() {

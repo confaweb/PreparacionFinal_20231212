@@ -27,6 +27,7 @@ public class Persona {
 		this.dni = dni;
 	}
 
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(dni);
@@ -48,5 +49,9 @@ public class Persona {
 	public String toString() {
 		return "Persona [nombre=" + nombre + ", dni=" + dni + "]";
 	}
+
+	
+
+	
 
 }

@@ -1,5 +1,5 @@
 package ar.edu.unlam.empresaDeTransporte;
 
-public enum Registro {
-A,B,C;
+public enum Tipo {
+MOTO,AUTOMOVIL,AUTOBUS;
 }

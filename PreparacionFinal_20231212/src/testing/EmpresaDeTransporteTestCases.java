@@ -18,6 +18,8 @@ import ar.edu.unlam.empresaDeTransporte.vehiculo.Motocicleta;
 import ar.edu.unlam.empresaDeTransporte.vehiculo.Vehiculo;
 import ar.edu.unlam.exception.ChoferNoHabilitadoException;
 import ar.edu.unlam.exception.ChoferSinRegistroException;
+import ar.edu.unlam.exception.VehiculoConPasajeroException;
+import ar.edu.unlam.exception.VehiculoLlenoException;
 
 /*
  * Enunciado. 
@@ -76,14 +78,16 @@ public class EmpresaDeTransporteTestCases {
 		assertNotNull(auto1);
 		assertNotNull(micro1);
 	}
+
 	@Test // #3
 	public void quelaEmpresaTransporteTengaChoferesAcompañanteYPasajeros() {// Vehiculo(patente,kmRecorridos)-->Autobus,Motocicleta,Automovil
 //		PREPARACION
 
-		String nombre = "Te Llevo", patenteM = "MMM123", patenteA = "AAA123", patenteMic = "MIC123",nombreP="Juan",nombreCh="Jose",
-				codPasajeroA="AA11",codPasajeroPs="PS22",nombreA="Pedro",nombrePs="Marcelo";
-		Integer cuit = 1111111, kmRecorridosM = 777777, kmRecorridosA = 888888, kmRecorridosMic = 999999,dniP=111111,dniCh=222222, dniA=333333
-				,dniPs=555555;
+		String nombre = "Te Llevo", patenteM = "MMM123", patenteA = "AAA123", patenteMic = "MIC123", nombreP = "Juan",
+				nombreCh = "Jose", codPasajeroA = "AA11", codPasajeroPs = "PS22", nombreA = "Pedro",
+				nombrePs = "Marcelo";
+		Integer cuit = 1111111, kmRecorridosM = 777777, kmRecorridosA = 888888, kmRecorridosMic = 999999, dniP = 111111,
+				dniCh = 222222, dniA = 333333, dniPs = 555555;
 		Registro registro = null;
 		ClasePasajero clase = null;
 
@@ -93,11 +97,10 @@ public class EmpresaDeTransporteTestCases {
 		Vehiculo moto1 = new Motocicleta(patenteM, kmRecorridosM);
 		Vehiculo auto1 = new Automovil(patenteA, kmRecorridosA);
 		Vehiculo micro1 = new Autobus(patenteMic, kmRecorridosMic);
-		Persona persona = new Persona(nombreP,dniP);
-		Persona chofer = new Chofer(nombreP,dniP,registro);
-		Persona acompaniante = new Acompaniante(nombreA,dniA,codPasajeroA);
-		Persona pasajero = new Pasajero(nombrePs,dniPs,codPasajeroPs,clase);
-		
+		Persona persona = new Persona(nombreP, dniP);
+		Persona chofer = new Chofer(nombreP, dniP, registro);
+		Persona acompaniante = new Acompaniante(nombreA, dniA, codPasajeroA);
+		Persona pasajero = new Pasajero(nombrePs, dniPs, codPasajeroPs, clase);
 
 //		VALIDACION
 
@@ -111,123 +114,383 @@ public class EmpresaDeTransporteTestCases {
 
 	}
 
-	
-
-@Test (expected = ChoferSinRegistroException.class)// #3
-public void siElChoferNoTieneRegistro() throws ChoferSinRegistroException{// Vehiculo(patente,kmRecorridos)-->Autobus,Motocicleta,Automovil
+	@Test(expected = ChoferSinRegistroException.class) // #4
+	public void siElChoferNoTieneRegistro() throws ChoferSinRegistroException {// Vehiculo(patente,kmRecorridos)-->Autobus,Motocicleta,Automovil
 //	PREPARACION
 
-	String nombre = "Te Llevo", patenteM = "MMM123", patenteA = "AAA123", patenteMic = "MIC123",nombreP="Juan",nombreCh="Jose",
-			codPasajeroA="AA11",codPasajeroPs="PS22",nombreA="Pedro",nombrePs="Marcelo";
-	Integer cuit = 1111111, kmRecorridosM = 777777, kmRecorridosA = 888888, kmRecorridosMic = 999999,dniP=111111,dniCh=222222, dniA=333333
-			,dniPs=555555;
-	Registro registro = null;
-	ClasePasajero clase = null;
-	Tipo tipoDeVehiculo=null;
-	
+		String nombre = "Te Llevo", patenteM = "MMM123", patenteA = "AAA123", patenteMic = "MIC123", nombreP = "Juan",
+				nombreCh = "Jose", codPasajeroA = "AA11", codPasajeroPs = "PS22", nombreA = "Pedro",
+				nombrePs = "Marcelo";
+		Integer cuit = 1111111, kmRecorridosM = 777777, kmRecorridosA = 888888, kmRecorridosMic = 999999, dniP = 111111,
+				dniCh = 222222, dniA = 333333, dniPs = 555555;
+		Registro registro = null;
+		ClasePasajero clase = null;
+		Tipo tipoDeVehiculo = null;
+
 //	EJECUCION
 
-	
-	Persona persona = new Persona(nombreP,dniP);
-	Persona chofer = new Chofer(nombreP,dniP,registro);
-	
-	((Chofer) chofer).sacarRegistro(tipoDeVehiculo);
+		Persona persona = new Persona(nombreP, dniP);
+		Persona chofer = new Chofer(nombreP, dniP, registro);
+
+		((Chofer) chofer).sacarRegistro(tipoDeVehiculo);
 
 //	VALIDACION
 
-assertTrue(((Chofer) chofer).tieneRegistro());	
+		assertTrue(((Chofer) chofer).tieneRegistro());
 
-}
+	}
 
-@Test// #4
-public void queElChoferTengaRegistro() throws ChoferSinRegistroException{// Vehiculo(patente,kmRecorridos)-->Autobus,Motocicleta,Automovil
+	@Test // #5
+	public void queElChoferTengaRegistro() throws ChoferSinRegistroException {// Vehiculo(patente,kmRecorridos)-->Autobus,Motocicleta,Automovil
 //	PREPARACION
 
-	String nombre = "Te Llevo", patenteM = "MMM123", patenteA = "AAA123", patenteMic = "MIC123",nombreP="Juan",nombreCh="Jose",
-			codPasajeroA="AA11",codPasajeroPs="PS22",nombreA="Pedro",nombrePs="Marcelo";
-	Integer cuit = 1111111, kmRecorridosM = 777777, kmRecorridosA = 888888, kmRecorridosMic = 999999,dniP=111111,dniCh=222222, dniA=333333
-			,dniPs=555555;
-	Registro registro = null;
-	ClasePasajero clase = null;
-	Tipo tipoDeVehiculo=Tipo.AUTOBUS;
-	
+		String nombre = "Te Llevo", patenteM = "MMM123", patenteA = "AAA123", patenteMic = "MIC123", nombreP = "Juan",
+				nombreCh = "Jose", codPasajeroA = "AA11", codPasajeroPs = "PS22", nombreA = "Pedro",
+				nombrePs = "Marcelo";
+		Integer cuit = 1111111, kmRecorridosM = 777777, kmRecorridosA = 888888, kmRecorridosMic = 999999, dniP = 111111,
+				dniCh = 222222, dniA = 333333, dniPs = 555555;
+		Registro registro = null;
+		ClasePasajero clase = null;
+		Tipo tipoDeVehiculo = Tipo.AUTOBUS;
+
 //	EJECUCION
 
-	
-	Persona persona = new Persona(nombreP,dniP);
-	Persona chofer = new Chofer(nombreP,dniP,registro);
-	
-	((Chofer) chofer).sacarRegistro(tipoDeVehiculo);
+		Persona persona = new Persona(nombreP, dniP);
+		Persona chofer = new Chofer(nombreP, dniP, registro);
+
+		((Chofer) chofer).sacarRegistro(tipoDeVehiculo);
 
 //	VALIDACION
 
-assertTrue(((Chofer) chofer).tieneRegistro());	
+		assertTrue(((Chofer) chofer).tieneRegistro());
 
-}
-@Test// #5
-(expected = ChoferNoHabilitadoException.class )
+	}
 
-public void vehiculoAasignaChoferSinRegistroCompetente() throws ChoferNoHabilitadoException{// Vehiculo(patente,kmRecorridos)-->Autobus,Motocicleta,Automovil
+	@Test// #6
+	(expected = ChoferNoHabilitadoException.class)
+
+	public void vehiculoAasignaChoferSinRegistroCompetente() throws ChoferNoHabilitadoException {// Vehiculo(patente,kmRecorridos)-->Autobus,Motocicleta,Automovil
 //	PREPARACION
 
-	String nombre = "Te Llevo", patenteM = "MMM123", patenteA = "AAA123", patenteMic = "MIC123",nombreP="Juan",nombreCh="Jose",
-			codPasajeroA="AA11",codPasajeroPs="PS22",nombreA="Pedro",nombrePs="Marcelo";
-	Integer cuit = 1111111, kmRecorridosM = 777777, kmRecorridosA = 888888, kmRecorridosMic = 999999,dniP=111111,dniCh=222222, dniA=333333
-			,dniPs=555555;
-	Registro registro =Registro.A;
-	ClasePasajero clase = null;
-	Tipo tipoDeVehiculo=Tipo.AUTOBUS;
-	
+		String nombre = "Te Llevo", patenteM = "MMM123", patenteA = "AAA123", patenteMic = "MIC123", nombreP = "Juan",
+				nombreCh = "Jose", codPasajeroA = "AA11", codPasajeroPs = "PS22", nombreA = "Pedro",
+				nombrePs = "Marcelo";
+		Integer cuit = 1111111, kmRecorridosM = 777777, kmRecorridosA = 888888, kmRecorridosMic = 999999, dniP = 111111,
+				dniCh = 222222, dniA = 333333, dniPs = 555555;
+		Registro registro = Registro.A;
+		ClasePasajero clase = null;
+		Tipo tipoDeVehiculo = Tipo.AUTOBUS;
+
 //	EJECUCION
 
-	
-	Persona persona = new Persona(nombreP,dniP);
-	Persona chofer = new Chofer(nombreP,dniP,registro);
-	Vehiculo moto1 = new Motocicleta(patenteM, kmRecorridosM);
-	Vehiculo auto1 = new Automovil(patenteA, kmRecorridosA);
-	Vehiculo micro1 = new Autobus(patenteMic, kmRecorridosMic);
-	
-	
-	
-	micro1.asignarChofer((Chofer) chofer);
-	
+		Persona persona = new Persona(nombreP, dniP);
+		Persona chofer = new Chofer(nombreP, dniP, registro);
+		Vehiculo moto1 = new Motocicleta(patenteM, kmRecorridosM);
+		Vehiculo auto1 = new Automovil(patenteA, kmRecorridosA);
+		Vehiculo micro1 = new Autobus(patenteMic, kmRecorridosMic);
+
+		micro1.asignarChofer((Chofer) chofer);
 
 //	VALIDACION
 
-assertTrue(moto1.asignarChofer((Chofer) chofer));	
+		assertTrue(moto1.asignarChofer((Chofer) chofer));
 
-}
-@Test// #6
+	}
 
-
-public void vehiculoAasignaChofer() throws ChoferNoHabilitadoException{// Vehiculo(patente,kmRecorridos)-->Autobus,Motocicleta,Automovil
+	@Test // #7
+	public void vehiculoAasignaChofer() throws ChoferNoHabilitadoException {// Vehiculo(patente,kmRecorridos)-->Autobus,Motocicleta,Automovil
 //	PREPARACION
 
-	String nombre = "Te Llevo", patenteM = "MMM123", patenteA = "AAA123", patenteMic = "MIC123",nombreP="Juan",nombreCh="Jose",
-			codPasajeroA="AA11",codPasajeroPs="PS22",nombreA="Pedro",nombrePs="Marcelo";
-	Integer cuit = 1111111, kmRecorridosM = 777777, kmRecorridosA = 888888, kmRecorridosMic = 999999,dniP=111111,dniCh=222222, dniA=333333
-			,dniPs=555555;
-	Registro registro = null;
-	ClasePasajero clase = null;
-	Tipo tipoDeVehiculo=Tipo.AUTOBUS;
-	
+		String nombre = "Te Llevo", patenteM = "MMM123", patenteA = "AAA123", patenteMic = "MIC123", nombreP = "Juan",
+				nombreCh = "Jose", codPasajeroA = "AA11", codPasajeroPs = "PS22", nombreA = "Pedro",
+				nombrePs = "Marcelo";
+		Integer cuit = 1111111, kmRecorridosM = 777777, kmRecorridosA = 888888, kmRecorridosMic = 999999, dniP = 111111,
+				dniCh = 222222, dniA = 333333, dniPs = 555555;
+		Registro registro = null;
+		ClasePasajero clase = null;
+		Tipo tipoDeVehiculo = Tipo.AUTOBUS;
+
 //	EJECUCION
 
-	
-	Persona persona = new Persona(nombreP,dniP);
-	Persona chofer = new Chofer(nombreP,dniP,registro);
-	Vehiculo moto1 = new Motocicleta(patenteM, kmRecorridosM);
-	Vehiculo auto1 = new Automovil(patenteA, kmRecorridosA);
-	Vehiculo micro1 = new Autobus(patenteMic, kmRecorridosMic);
-	
-	((Chofer) chofer).sacarRegistro(tipoDeVehiculo);
-	
-	moto1.asignarChofer((Chofer) chofer);
-	
+		Persona persona = new Persona(nombreP, dniP);
+		Persona chofer = new Chofer(nombreP, dniP, registro);
+		Vehiculo moto1 = new Motocicleta(patenteM, kmRecorridosM);
+		Vehiculo auto1 = new Automovil(patenteA, kmRecorridosA);
+		Vehiculo micro1 = new Autobus(patenteMic, kmRecorridosMic);
+
+		((Chofer) chofer).sacarRegistro(tipoDeVehiculo);
+
+		moto1.asignarChofer((Chofer) chofer);
 
 //	VALIDACION
 
-assertTrue(moto1.asignarChofer((Chofer) chofer));	
+		assertTrue(moto1.asignarChofer((Chofer) chofer));
 
-}
+	}
+
+	@Test // #8
+	public void vehiculoAgregarAcompañanteOPasajero() throws VehiculoLlenoException {// Vehiculo(patente,kmRecorridos)-->Autobus,Motocicleta,Automovil
+//	PREPARACION
+
+		String nombre = "Te Llevo", patenteM = "MMM123", patenteA = "AAA123", patenteMic = "MIC123", nombreP = "Juan",
+				nombreCh = "Jose", codPasajeroA = "AA11", codPasajeroPs = "PS22", nombreA = "Pedro",
+				nombrePs = "Marcelo";
+		Integer cuit = 1111111, kmRecorridosM = 777777, kmRecorridosA = 888888, kmRecorridosMic = 999999, dniP = 111111,
+				dniCh = 222222, dniA = 333333, dniPs = 555555,cantidadPasajerosAgregados=0;
+		Registro registro = null;
+		ClasePasajero clase = null;
+		Tipo tipoDeVehiculo = Tipo.AUTOBUS;
+		
+
+//	EJECUCION
+
+		Persona persona = new Persona(nombreP, dniP);
+		Persona chofer = new Chofer(nombreP, dniP, registro);
+		Vehiculo moto1 = new Motocicleta(patenteM, kmRecorridosM);
+		Vehiculo auto1 = new Automovil(patenteA, kmRecorridosA);
+		Vehiculo micro1 = new Autobus(patenteMic, kmRecorridosMic);
+		Persona acompaniante = new Acompaniante(nombreA, dniA, codPasajeroA);
+		Persona acompaniante1 = new Acompaniante(nombreCh, dniCh, codPasajeroPs);
+
+		((Chofer) chofer).sacarRegistro(tipoDeVehiculo);
+
+		moto1.agregarAcompañanteOPasajero((Acompaniante) acompaniante);
+		cantidadPasajerosAgregados ++;
+		
+
+//	VALIDACION
+		Integer ve= cantidadPasajerosAgregados;
+		Integer vo=moto1.getListadoPasajeros().size();
+
+		assertEquals(ve,vo);
+
+	}
+	@Test // #9
+	(expected = VehiculoLlenoException.class)
+	public void vehiculoNoPuedeAgregarAcompañanteOPasajero() throws VehiculoLlenoException {// Vehiculo(patente,kmRecorridos)-->Autobus,Motocicleta,Automovil
+//	PREPARACION
+
+		String nombre = "Te Llevo", patenteM = "MMM123", patenteA = "AAA123", patenteMic = "MIC123", nombreP = "Juan",
+				nombreCh = "Jose", codPasajeroA = "AA11", codPasajeroPs = "PS22", nombreA = "Pedro",
+				nombrePs = "Marcelo";
+		Integer cuit = 1111111, kmRecorridosM = 777777, kmRecorridosA = 888888, kmRecorridosMic = 999999, dniP = 111111,
+				dniCh = 222222, dniA = 333333, dniPs = 555555, cantidadPasajerosAgregados=0;
+		Registro registro = null;
+		ClasePasajero clase = null;
+		Tipo tipoDeVehiculo = Tipo.AUTOBUS;
+
+//	EJECUCION
+
+		Persona persona = new Persona(nombreP, dniP);
+		Persona chofer = new Chofer(nombreP, dniP, registro);
+		Vehiculo moto1 = new Motocicleta(patenteM, kmRecorridosM);
+		Vehiculo auto1 = new Automovil(patenteA, kmRecorridosA);
+		Vehiculo micro1 = new Autobus(patenteMic, kmRecorridosMic);
+		Persona acompaniante = new Acompaniante(nombreA, dniA, codPasajeroA);
+		Persona acompaniante1 = new Acompaniante(nombreCh, dniCh, codPasajeroPs);
+
+		((Chofer) chofer).sacarRegistro(tipoDeVehiculo);
+
+		moto1.agregarAcompañanteOPasajero((Acompaniante) acompaniante);
+		cantidadPasajerosAgregados ++;
+		moto1.agregarAcompañanteOPasajero((Acompaniante) acompaniante1);
+		cantidadPasajerosAgregados ++;
+
+
+//	VALIDACION
+		Integer ve= cantidadPasajerosAgregados;
+		Integer vo=moto1.getListadoPasajeros().size();
+
+		assertEquals(ve,vo);
+
+	}
+	@Test // #10
+	public void vehiculoAgregarAcompañanteOPasajeroAuto() throws VehiculoLlenoException {// Vehiculo(patente,kmRecorridos)-->Autobus,Motocicleta,Automovil
+//	PREPARACION
+
+		String nombre = "Te Llevo", patenteM = "MMM123", patenteA = "AAA123", patenteMic = "MIC123", nombreP = "Juan",
+				nombreCh = "Jose", codPasajeroA = "AA11", codPasajeroPs = "PS00",codPasajeroPs1 = "PS11",codPasajeroPs2 = "PS22",
+				codPasajeroPs3 = "PS33", codPasajeroPs4 = "PS44",codPasajeroPs5 = "PS55",nombreA = "Pedro",
+				nombrePs = "Marcelo";
+		Integer cuit = 1111111, kmRecorridosM = 777777, kmRecorridosA = 888888, kmRecorridosMic = 999999, dniP = 111111,
+				dniCh = 222222, dniA = 333333, dniPs = 555555,dniPs1 = 666666,dniPs2 = 777777,dniPs3 = 888888,dniPs4 = 999999,cantidadPasajerosAgregados=0;
+		Registro registro = null;
+		ClasePasajero clase = null;
+		Tipo tipoDeVehiculo = Tipo.AUTOBUS;
+		
+
+//	EJECUCION
+
+		Persona persona = new Persona(nombreP, dniP);
+		Persona chofer = new Chofer(nombreP, dniP, registro);
+		Vehiculo moto1 = new Motocicleta(patenteM, kmRecorridosM);
+		Vehiculo auto1 = new Automovil(patenteA, kmRecorridosA);
+		Vehiculo micro1 = new Autobus(patenteMic, kmRecorridosMic);
+		Persona acompaniante = new Acompaniante(nombreA, dniA, codPasajeroA);
+		Persona pasajero = new Pasajero(nombrePs, dniPs, codPasajeroPs,clase);
+		Persona pasajero1 = new Pasajero(nombrePs, dniPs1, codPasajeroPs1,clase);
+		Persona pasajero2 = new Pasajero(nombrePs, dniPs2, codPasajeroPs2,clase);
+		Persona pasajero3 = new Pasajero(nombrePs, dniPs3, codPasajeroPs3,clase);
+		
+
+		((Chofer) chofer).sacarRegistro(tipoDeVehiculo);
+
+		((Vehiculo)auto1).agregarAcompañanteOPasajero(pasajero);
+		cantidadPasajerosAgregados ++;
+		((Vehiculo)auto1).agregarAcompañanteOPasajero(pasajero1);
+		cantidadPasajerosAgregados ++;
+		((Vehiculo)auto1).agregarAcompañanteOPasajero(pasajero2);
+		cantidadPasajerosAgregados ++;
+		((Vehiculo)auto1).agregarAcompañanteOPasajero(pasajero3);
+		cantidadPasajerosAgregados ++;
+		
+		
+
+//	VALIDACION
+		Integer ve= cantidadPasajerosAgregados;
+		Integer vo=((Vehiculo)auto1).getListadoPasajeros().size();
+
+		assertEquals(ve,vo);
+
+	}
+	@Test // #11
+	(expected = VehiculoLlenoException.class)
+	public void vehiculoNoPuedeAgregarAcompañanteOPasajeroAutomovil() throws VehiculoLlenoException {// Vehiculo(patente,kmRecorridos)-->Autobus,Motocicleta,Automovil
+//		PREPARACION
+
+			String nombre = "Te Llevo", patenteM = "MMM123", patenteA = "AAA123", patenteMic = "MIC123", nombreP = "Juan",
+					nombreCh = "Jose", codPasajeroA = "AA11", codPasajeroPs = "PS00",codPasajeroPs1 = "PS11",codPasajeroPs2 = "PS22",
+					codPasajeroPs3 = "PS33", codPasajeroPs4 = "PS44",codPasajeroPs5 = "PS55",nombreA = "Pedro",
+					nombrePs = "Marcelo";
+			Integer cuit = 1111111, kmRecorridosM = 777777, kmRecorridosA = 888888, kmRecorridosMic = 999999, dniP = 111111,
+					dniCh = 222222, dniA = 333333, dniPs = 555555,dniPs1 = 666666,dniPs2 = 777777,dniPs3 = 888888,dniPs4 = 999999,cantidadPasajerosAgregados=0;
+			Registro registro = null;
+			ClasePasajero clase = null;
+			Tipo tipoDeVehiculo = Tipo.AUTOBUS;
+			
+
+//		EJECUCION
+
+			Persona persona = new Persona(nombreP, dniP);
+			Persona chofer = new Chofer(nombreP, dniP, registro);
+			Vehiculo moto1 = new Motocicleta(patenteM, kmRecorridosM);
+			Vehiculo auto1 = new Automovil(patenteA, kmRecorridosA);
+			Vehiculo micro1 = new Autobus(patenteMic, kmRecorridosMic);
+			Persona acompaniante = new Acompaniante(nombreA, dniA, codPasajeroA);
+			Persona pasajero = new Pasajero(nombrePs, dniPs, codPasajeroPs,clase);
+			Persona pasajero1 = new Pasajero(nombrePs, dniPs1, codPasajeroPs1,clase);
+			Persona pasajero2 = new Pasajero(nombrePs, dniPs2, codPasajeroPs2,clase);
+			Persona pasajero3 = new Pasajero(nombrePs, dniPs3, codPasajeroPs3,clase);
+			Persona pasajero4 = new Pasajero(nombrePs, dniPs4, codPasajeroPs4,clase);
+			
+
+			((Chofer) chofer).sacarRegistro(tipoDeVehiculo);
+
+			auto1.agregarAcompañanteOPasajero((Persona)pasajero);
+			cantidadPasajerosAgregados ++;
+			auto1.agregarAcompañanteOPasajero((Persona)pasajero1);
+			cantidadPasajerosAgregados ++;
+			auto1.agregarAcompañanteOPasajero((Persona)pasajero2);
+			cantidadPasajerosAgregados ++;
+			auto1.agregarAcompañanteOPasajero((Persona)pasajero3);
+			cantidadPasajerosAgregados ++;
+			auto1.agregarAcompañanteOPasajero((Persona)pasajero4);
+			cantidadPasajerosAgregados ++;
+			
+			
+
+//		VALIDACION
+			Integer ve= cantidadPasajerosAgregados;
+			Integer vo=auto1.getListadoPasajeros().size();
+
+			assertEquals(ve,vo);
+
+
+	}
+	@Test // #12
+	public void vehiculoCambiarChofer() throws VehiculoLlenoException, VehiculoConPasajeroException, ChoferNoHabilitadoException  {
+
+		String nombre = "Te Llevo", patenteM = "MMM123", patenteA = "AAA123", patenteMic = "MIC123", nombreP = "Juan",
+				nombreCh = "Jose", codPasajeroA = "AA11", codPasajeroPs = "PS00",codPasajeroPs1 = "PS11",codPasajeroPs2 = "PS22",
+				codPasajeroPs3 = "PS33", codPasajeroPs4 = "PS44",codPasajeroPs5 = "PS55",nombreA = "Pedro",
+				nombrePs = "Marcelo";
+		Integer cuit = 1111111, kmRecorridosM = 777777, kmRecorridosA = 888888, kmRecorridosMic = 999999, dniP = 111111,
+				dniCh = 222222, dniA = 333333, dniPs = 555555,dniPs1 = 666666,dniPs2 = 777777,dniPs3 = 888888,dniPs4 = 999999,cantidadPasajerosAgregados=0;
+		Registro registro = null;
+		ClasePasajero clase = null;
+		Tipo tipoDeVehiculo = Tipo.AUTOBUS;
+		
+
+//	EJECUCION
+
+		Persona persona = new Persona(nombreP, dniP);
+		Persona chofer = new Chofer(nombreP, dniP, registro);
+		Persona chofer2 = new Chofer(nombreCh, dniCh, registro);
+		Vehiculo moto1 = new Motocicleta(patenteM, kmRecorridosM);
+		Vehiculo auto1 = new Automovil(patenteA, kmRecorridosA);
+		Vehiculo micro1 = new Autobus(patenteMic, kmRecorridosMic);
+		Persona acompaniante = new Acompaniante(nombreA, dniA, codPasajeroA);
+		Persona pasajero = new Pasajero(nombrePs, dniPs, codPasajeroPs,clase);
+		
+
+		((Chofer) chofer).sacarRegistro(tipoDeVehiculo);
+		((Vehiculo)auto1).setChoferAsignado((Persona)chofer2);
+
+//		((Vehiculo)auto1).agregarAcompañanteOPasajero(pasajero);
+//		cantidadPasajerosAgregados ++;
+		
+		((Vehiculo)auto1).cambiarChofer((Persona)chofer);
+		
+
+//	VALIDACION
+		Persona ve= chofer;
+		Persona vo=((Vehiculo)auto1).getChoferAsignado();
+
+		assertEquals(ve,vo);
+
+	}
+	@Test // #13
+	(expected=VehiculoConPasajeroException.class)
+	public void vehiculoNoPermiteCambiarChofer() throws VehiculoLlenoException, VehiculoConPasajeroException, ChoferNoHabilitadoException  {
+
+		String nombre = "Te Llevo", patenteM = "MMM123", patenteA = "AAA123", patenteMic = "MIC123", nombreP = "Juan",
+				nombreCh = "Jose", codPasajeroA = "AA11", codPasajeroPs = "PS00",codPasajeroPs1 = "PS11",codPasajeroPs2 = "PS22",
+				codPasajeroPs3 = "PS33", codPasajeroPs4 = "PS44",codPasajeroPs5 = "PS55",nombreA = "Pedro",
+				nombrePs = "Marcelo";
+		Integer cuit = 1111111, kmRecorridosM = 777777, kmRecorridosA = 888888, kmRecorridosMic = 999999, dniP = 111111,
+				dniCh = 222222, dniA = 333333, dniPs = 555555,dniPs1 = 666666,dniPs2 = 777777,dniPs3 = 888888,dniPs4 = 999999,cantidadPasajerosAgregados=0;
+		Registro registro = null;
+		ClasePasajero clase = null;
+		Tipo tipoDeVehiculo = Tipo.AUTOBUS;
+		
+
+//	EJECUCION
+
+		Persona persona = new Persona(nombreP, dniP);
+		Persona chofer = new Chofer(nombreP, dniP, registro);
+		Persona chofer2 = new Chofer(nombreCh, dniCh, registro);
+		Vehiculo moto1 = new Motocicleta(patenteM, kmRecorridosM);
+		Vehiculo auto1 = new Automovil(patenteA, kmRecorridosA);
+		Vehiculo micro1 = new Autobus(patenteMic, kmRecorridosMic);
+		Persona acompaniante = new Acompaniante(nombreA, dniA, codPasajeroA);
+		Persona pasajero = new Pasajero(nombrePs, dniPs, codPasajeroPs,clase);
+		
+
+		((Chofer) chofer).sacarRegistro(tipoDeVehiculo);
+		((Vehiculo)auto1).setChoferAsignado((Persona)chofer2);
+
+		((Vehiculo)auto1).agregarAcompañanteOPasajero(pasajero);
+		cantidadPasajerosAgregados ++;
+		
+		((Vehiculo)auto1).cambiarChofer((Persona)chofer);
+		
+
+//	VALIDACION
+		Persona ve= chofer;
+		Persona vo=((Vehiculo)auto1).getChoferAsignado();
+
+		assertEquals(ve,vo);
+
+	}
+
 }

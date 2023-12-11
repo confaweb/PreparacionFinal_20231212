@@ -2,7 +2,7 @@ package ar.edu.unlam.empresaDeTransporte.persona;
 
 import java.util.Objects;
 
-public class Persona {
+public class Persona implements Comparable<Persona> {
 	protected String nombre;
 	protected Integer dni;
 
@@ -48,6 +48,12 @@ public class Persona {
 	@Override
 	public String toString() {
 		return "Persona [nombre=" + nombre + ", dni=" + dni + "]";
+	}
+
+	@Override
+	public int compareTo(Persona o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	

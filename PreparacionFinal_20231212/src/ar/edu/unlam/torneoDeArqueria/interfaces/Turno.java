@@ -8,5 +8,5 @@ public interface Turno {
 
 	public Integer calcularPuntaje(Integer coordX, Integer coordY) throws DisparoInvalidoException;
 
-	public void registrarPuntaje() throws DisparoInvalidoException;
+	public void registrarPuntajePorDisparo() throws DisparoInvalidoException;
 }

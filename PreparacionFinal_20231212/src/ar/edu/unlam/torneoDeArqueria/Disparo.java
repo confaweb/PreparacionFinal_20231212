@@ -14,14 +14,13 @@ public class Disparo implements Turno {
 	private Integer numeroParticipante;
 	private NumeroOrdinalDisparo orden;
 	private List<Integer> registroDePuntos;
-	
 
 	public Disparo(Integer coordX, Integer coordY, Integer numeroParticipante, NumeroOrdinalDisparo orden) {
 		this.coordX = coordX;
 		this.coordY = coordY;
 		this.numeroParticipante = numeroParticipante;
 		this.orden = orden;
-		this.registroDePuntos=new ArrayList<Integer>();
+		this.registroDePuntos = new ArrayList<Integer>();
 	}
 
 	public Integer getCoordX() {
@@ -65,19 +64,22 @@ public class Disparo implements Turno {
 	@Override
 	public Integer calcularPuntaje(Integer coordX, Integer coordY) throws DisparoInvalidoException {
 		Integer puntaje = 0;
-		if (!disparoValidado(coordX, coordY))
-			throw new DisparoInvalidoException("Disparo fuera de rango");
-		else if (Integer.sum(coordX, coordY) <= 20)
-			puntaje = 1000;
-		else if (Integer.sum(coordX, coordY) > 20&& Integer.sum(coordX, coordY) <= 40)
-			puntaje = 500;
-		else if (Integer.sum(coordX, coordY) >40&& Integer.sum(coordX, coordY) <= 60)
-			puntaje = 200;
-		else if (Integer.sum(coordX, coordY) > 60&&Integer.sum(coordX, coordY) <= 80)
-			puntaje = 100;
-		else
-			puntaje=50;
+		Integer radio = 0;
+		radio = Integer.max(coordX, coordY);
 
+		if (radio <= 10)
+			puntaje = 1000;
+		else if (radio > 10 && radio <= 20)
+			puntaje = 500;
+		else if (radio > 20 && radio <= 30)
+			puntaje = 200;
+		else if (radio > 30 && radio <= 40)
+			puntaje = 100;
+		else if (radio > 40 && radio <= 50)
+
+			puntaje = 50;
+		else
+			throw new DisparoInvalidoException("Disparo fuera de rango");
 		return puntaje;
 	}
 
@@ -89,9 +91,12 @@ public class Disparo implements Turno {
 	}
 
 	@Override
-	public void registrarPuntaje() throws DisparoInvalidoException {
-		Integer puntajeObtenido=calcularPuntaje(this.getCoordX(), this.getCoordY());
-		this.registroDePuntos.add(puntajeObtenido);
+	public void registrarPuntajePorDisparo() throws DisparoInvalidoException {
+		Integer puntajeObtenido = 0;
+		if (disparoValidado(this.coordX, this.coordY)) {
+			puntajeObtenido = calcularPuntaje(this.getCoordX(), this.getCoordY());
+			this.registroDePuntos.add(puntajeObtenido);
+		}
 
 	}
 

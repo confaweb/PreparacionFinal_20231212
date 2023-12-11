@@ -37,21 +37,69 @@ import org.junit.Test;
 import ar.edu.unlam.torneoDeArqueria.Disparo;
 import ar.edu.unlam.torneoDeArqueria.NumeroOrdinalDisparo;
 import ar.edu.unlam.torneoDeArqueria.Participante;
+import ar.edu.unlam.torneoDeArqueria.exception.DisparoInvalidoException;
 
 public class TorneodeAruqeriaTestCases {
 
-	@Test
+	@Test         //#1
 	public void QueSePuedaCrearPersonasParticipantesQueRealizanDisparosSobreUnBlanco() {
 //		PREPARACION
 		
 		Integer numeroParticipante=1,coordX=5,coordY=5;
 		NumeroOrdinalDisparo orden = NumeroOrdinalDisparo.PRIMERO;
+		
 //		EJECUCION
 		
 		Participante participante1=new Participante(numeroParticipante);
 		Disparo disparo = new Disparo(coordX,coordY,numeroParticipante,orden);
+		
+//		VALIDACION
+		
 		assertNotNull(participante1);
 		assertNotNull(disparo);
 	}
+	@Test         //#2
+	public void QueSePuedaCalcularPpuntajePorDisparo() throws DisparoInvalidoException {
+//		PREPARACION
+		
+		Integer numeroParticipante=1,coordX=53,coordY=42;
+		NumeroOrdinalDisparo orden = NumeroOrdinalDisparo.PRIMERO;
+		
+//		EJECUCION
+		
+		Participante participante1=new Participante(numeroParticipante);
+		Disparo disparo = new Disparo(coordX,coordY,numeroParticipante,orden);
+		disparo.calcularPuntaje(coordX, coordY);
+		
+//		VALIDACION
+		Integer ve=50;
+		Integer vo=disparo.calcularPuntaje(coordX, coordY);
+		
+		
+		assertEquals(ve,vo);
+	}
+	@Test         //#3
+	(expected=DisparoInvalidoException.class)
+	public void QueLanceExcepcionSiElTiroSeAlejaMasDe_50_CMdelCentro() throws DisparoInvalidoException {
+//		PREPARACION
+		
+		Integer numeroParticipante=1,coordX=65,coordY=51;
+		NumeroOrdinalDisparo orden = NumeroOrdinalDisparo.PRIMERO;
+		
+//		EJECUCION
+		
+		Participante participante1=new Participante(numeroParticipante);
+		Disparo disparo = new Disparo(coordX,coordY,numeroParticipante,orden);
+		disparo.calcularPuntaje(coordX, coordY);
+		
+//		VALIDACION
+		Integer ve=50;
+		Integer vo=disparo.calcularPuntaje(coordX, coordY);
+		
+		
+		assertEquals(ve,vo);
+	}
+
+
 
 }

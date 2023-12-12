@@ -37,6 +37,7 @@ import org.junit.Test;
 import ar.edu.unlam.torneoDeArqueria.Disparo;
 import ar.edu.unlam.torneoDeArqueria.NumeroOrdinalDisparo;
 import ar.edu.unlam.torneoDeArqueria.Participante;
+import ar.edu.unlam.torneoDeArqueria.Torneo;
 import ar.edu.unlam.torneoDeArqueria.exception.DisparoInvalidoException;
 
 public class TorneodeAruqeriaTestCases {
@@ -59,10 +60,10 @@ public class TorneodeAruqeriaTestCases {
 		assertNotNull(disparo);
 	}
 	@Test         //#2
-	public void QueSePuedaCalcularPpuntajePorDisparo() throws DisparoInvalidoException {
+	public void QueSePuedaCalcularPuntajePorDisparo() throws DisparoInvalidoException {
 //		PREPARACION
 		
-		Integer numeroParticipante=1,coordX=53,coordY=42;
+		Integer numeroParticipante=1,coordX=3,coordY=42;
 		NumeroOrdinalDisparo orden = NumeroOrdinalDisparo.PRIMERO;
 		
 //		EJECUCION
@@ -99,6 +100,127 @@ public class TorneodeAruqeriaTestCases {
 		
 		assertEquals(ve,vo);
 	}
+	@Test         //#4
+	public void QueSePuedaREgistrarPuntajeDelDisparo() throws DisparoInvalidoException {
+//		PREPARACION
+		
+		Integer numeroParticipante=1,coordX=3,coordY=42;
+		NumeroOrdinalDisparo orden = NumeroOrdinalDisparo.PRIMERO;
+		
+//		EJECUCION
+		
+		Participante participante1=new Participante(numeroParticipante);
+		Disparo disparo = new Disparo(coordX,coordY,numeroParticipante,orden);
+		disparo.calcularPuntaje(coordX, coordY);
+		participante1.registrarPuntajeDisparo( disparo);
+		
+//		VALIDACION
+		
+		assertTrue(participante1.registrarPuntajeDisparo( disparo));
+		
+		
+	}
+	@Test         //#5
+	public void QueSePuedaSumaryMostrarPuntajeDelDisparo() throws DisparoInvalidoException {
+//		PREPARACION
+		
+		Integer numeroParticipante=1,coordX=3,coordY=42,coordX1=5,coordY1=25,coordX2=8,coordY2=1;
+		NumeroOrdinalDisparo orden = NumeroOrdinalDisparo.PRIMERO,orden1 = NumeroOrdinalDisparo.SEGUNDO,
+				orden2 = NumeroOrdinalDisparo.TERCERO;
+		
+//		EJECUCION
+		
+		Participante participante1=new Participante(numeroParticipante);
+		Disparo disparo = new Disparo(coordX,coordY,numeroParticipante,orden);
+		Disparo disparo1 = new Disparo(coordX1,coordY1,numeroParticipante,orden1);
+		Disparo disparo2 = new Disparo(coordX2,coordY2,numeroParticipante,orden2);
+		disparo.calcularPuntaje(coordX, coordY);
+		
+		participante1.registrarPuntajeDisparo( disparo);
+		participante1.registrarPuntajeDisparo( disparo1);
+		participante1.registrarPuntajeDisparo( disparo2);
+		participante1.sumarYMostrarTotal();
+		
+		
+//		VALIDACION
+		
+		Integer ve=1250;
+		Integer vo=participante1.sumarYMostrarTotal();
+		
+		
+		assertEquals(ve,vo);
+		
+		
+	}
+	@Test         //#6
+	public void QueSePuedaCrearRegistroDeParticipantes() throws DisparoInvalidoException {
+//		PREPARACION
+		
+		Integer numeroParticipante=1,coordX=3,coordY=42,coordX1=5,coordY1=25,coordX2=8,coordY2=1,//puntaje participante1=1250
+				numeroParticipante2=2,coordX00=3,coordY00=5,coordX11=5,coordY11=6,coordX22=8,coordY22=1,//puntaje participante2=3000
+				numeroParticipante3=2,coordX000=25,coordY000=25,coordX111=25,coordY111=26,coordX222=28,coordY222=21,//puntaje participante2=1500
+				codigoTorneo=123123123;
+		NumeroOrdinalDisparo orden = NumeroOrdinalDisparo.PRIMERO,orden1 = NumeroOrdinalDisparo.SEGUNDO,
+				orden2 = NumeroOrdinalDisparo.TERCERO;
+		String nombreTorneo="Olympic";
+		
+//		EJECUCION
+		Torneo torneo=new Torneo(nombreTorneo,codigoTorneo);
+		
+		Participante participante1=new Participante(numeroParticipante);
+		Disparo disparo = new Disparo(coordX,coordY,numeroParticipante,orden);
+		Disparo disparo1 = new Disparo(coordX1,coordY1,numeroParticipante,orden1);
+		Disparo disparo2 = new Disparo(coordX2,coordY2,numeroParticipante,orden2);
+		disparo.calcularPuntaje(coordX, coordY);
+		
+		Participante participante2=new Participante(numeroParticipante);
+		Disparo disparo00 = new Disparo(coordX00,coordY00,numeroParticipante2,orden);
+		Disparo disparo11 = new Disparo(coordX11,coordY11,numeroParticipante2,orden1);
+		Disparo disparo22 = new Disparo(coordX22,coordY22,numeroParticipante2,orden2);
+		disparo.calcularPuntaje(coordX00, coordY00);
+		
+		Participante participante3=new Participante(numeroParticipante);
+		Disparo disparo000 = new Disparo(coordX000,coordY000,numeroParticipante3,orden);
+		Disparo disparo111 = new Disparo(coordX111,coordY111,numeroParticipante3,orden1);
+		Disparo disparo222 = new Disparo(coordX222,coordY222,numeroParticipante3,orden2);
+		disparo.calcularPuntaje(coordX000, coordY000);
+		
+		participante1.registrarPuntajeDisparo( disparo);
+		participante1.registrarPuntajeDisparo( disparo1);
+		participante1.registrarPuntajeDisparo( disparo2);
+		participante1.sumarYMostrarTotal();
+		
+		participante2.registrarPuntajeDisparo( disparo00);
+		participante2.registrarPuntajeDisparo( disparo11);
+		participante2.registrarPuntajeDisparo( disparo22);
+		participante2.sumarYMostrarTotal();
+		
+		participante3.registrarPuntajeDisparo( disparo000);
+		participante3.registrarPuntajeDisparo( disparo111);
+		participante3.registrarPuntajeDisparo( disparo222);
+		participante3.sumarYMostrarTotal();
+		
+		torneo.registraParticipantePorTotal(participante1);
+		torneo.registraParticipantePorTotal(participante2);
+		torneo.registraParticipantePorTotal(participante3);
+		
+		
+		
+		
+//		VALIDACION
+		
+		
+		assertFalse(torneo.getRanking().isEmpty());
+		assertTrue(torneo.getRanking().contains(participante1));
+		assertTrue(torneo.getRanking().contains(participante2));
+		assertTrue(torneo.getRanking().contains(participante3));
+		
+		
+		
+		
+		
+	}
+	
 
 
 

@@ -49,6 +49,12 @@ public class Torneo implements Comparable<Participante> {
 	public void sort(Comparator<? super Participante> c) {
 		ranking.sort(c);
 	}
+	public void printRanking(List <Participante>ranking) {
+		for (Participante participante : ranking) {
+			System.out.println("Participante N"+participante.getNumeroParticipante());
+		}
+	}
+	
 
 	@Override
 	public int hashCode() {
